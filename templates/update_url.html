@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit URL</h1>
+<hr>
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <div class="form-group">
+                {{ form.url.label(class="form-control-label") }}
+                {% if form.url.errors %}
+                {{ form.url(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.url.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.url(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mt-2">
+                {{ form.shorturl.label(class="form-control-label") }}
+                {% if form.shorturl.errors %}
+                {{ form.shorturl(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.shorturl.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.shorturl(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mt-3 mb-3">
+                {% if form.recaptcha.errors %}
+                {{ form.recaptcha(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.recaptcha.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.recaptcha(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
