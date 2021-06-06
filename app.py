@@ -70,7 +70,7 @@ def valid_url(form, field):
 
 
 def check_shorturl(form, field):
-    if field.data in ['login', 'register', 'logout', 'reset_password', 'confirm', 'account', 'url']:
+    if field.data in ['login', 'register', 'logout', 'reset_password', 'confirm', 'account', 'url', 'static']:
         raise ValidationError(
             'That short url is forbidden. Please choose a different short url.')
 
