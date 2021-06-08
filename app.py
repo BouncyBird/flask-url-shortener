@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm, RecaptchaField
 from werkzeug.exceptions import default_exceptions
@@ -70,7 +70,7 @@ def valid_url(form, field):
 
 
 def check_shorturl(form, field):
-    if field.data in ['login', 'register', 'logout', 'reset_password', 'confirm', 'account', 'url', 'static']:
+    if field.data in ['login', 'register', 'logout', 'reset_password', 'confirm', 'account', 'url', 'static', 'api']:
         raise ValidationError(
             'That short url is forbidden. Please choose a different short url.')
 
@@ -245,6 +245,22 @@ def short_url(shorturl):
         db.session.add(url)
         db.session.commit()
         return redirect(url.url)
+
+
+@app.route('/api')
+def api():
+    params = request.args
+    url = URL.query.filter_by(shorturl=params['shorturl']).first()
+    if url:
+        return jsonify({'status': 'error', 'error': 'Short URL taken'})
+    elif params['shorturl'] in ['login', 'register', 'logout', 'reset_password', 'confirm', 'account', 'url', 'static', 'api']:
+        return jsonify({'status': 'error', 'error': ' That Short URL is forbidden'})
+    else:
+        url = URL(url=params['url'], shorturl=params['shorturl'], password=None, clicks=0,
+                  user_id=None)
+        db.session.add(url)
+        db.session.commit()
+        return jsonify({'status': 'success', 'Short URL': f'{request.host_url}{params["shorturl"]}'})
 
 
 def send_confirm_email(user, token, confirm_url):
@@ -435,4 +451,4 @@ regex = re.compile(
     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
