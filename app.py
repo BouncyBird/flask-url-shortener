@@ -226,7 +226,7 @@ def home():
         db.session.add(url)
         db.session.commit()
         flash(
-            f'Congrats! Your URL has been shortened to <a target="_blank" href="{request.host_url}{form.shorturl.data}">{request.host_url}{form.shorturl.data}</a>', 'success')
+            f'Congrats! Your URL has been shortened to <a target="_blank" href="{request.host_url}{form.shorturl.data}">{request.host_url}{form.shorturl.data}</a>. You can also use <a target="_blank" href="https://eshan.dev/s/{form.shorturl.data}">https://eshan.dev/s/{form.shorturl.data}</a>', 'success')
         return redirect(url_for('home'))
     return render_template('home.html', form=form, showpw=True)
 
