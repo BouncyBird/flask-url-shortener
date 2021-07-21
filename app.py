@@ -320,7 +320,7 @@ def login():
             next_page = request.args.get("next")
             flash("Login Successful. You have been logged in.", "success")
             return redirect(next_page) if next_page else redirect(url_for("home"))
-        elif not user.confirmed:
+        elif user and not user.confirmed and bcrypt.check_password_hash(user.password, form.password.data):
             token = generate_confirmation_token(user.email)
             confirm_url = url_for("confirm_email",
                                   token=token, _external=True)
