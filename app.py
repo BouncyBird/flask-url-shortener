@@ -14,11 +14,12 @@ from flask_migrate import Migrate, current
 import validators
 from flask_mail import Message, Mail
 from urllib.parse import urlparse
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '09c4a587537f4059549a8f9ef485f284'
 app.config['SECURITY_PASSWORD_SALT'] = '763fc88aac5bc2d8df654d351119ed39'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcVOwobAAAAAFIk9sCMke7fG6bFySp4spGSF_vf'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcVOwobAAAAAI2qx_g9Uv1rvyF_YIryRgAUHFC1'
