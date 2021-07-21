@@ -315,18 +315,18 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if not user.confirmed:
+        if user and user.confirmed and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get("next")
+            flash("Login Successful. You have been logged in.", "success")
+            return redirect(next_page) if next_page else redirect(url_for("home"))
+        elif not user.confirmed:
             token = generate_confirmation_token(user.email)
             confirm_url = url_for("confirm_email",
                                   token=token, _external=True)
             send_confirm_email(user, token, confirm_url)
             flash("An email has been sent to confirm your email", "info")
             return redirect(url_for("home"))
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get("next")
-            flash("Login Successful. You have been logged in.", "success")
-            return redirect(next_page) if next_page else redirect(url_for("home"))
         else:
             flash("Login Unsuccessful. Please check email and password", "danger")
     return render_template("login.html", title="Login", form=form)
