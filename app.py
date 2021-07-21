@@ -15,6 +15,7 @@ import validators
 from flask_mail import Message, Mail
 from urllib.parse import urlparse
 import os
+import psycopg2
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '09c4a587537f4059549a8f9ef485f284'
