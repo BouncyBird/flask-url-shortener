@@ -35,7 +35,7 @@
 {% for url in allurls %}
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{ requests.get('http://textance.herokuapp.com/title/' ~ url.url).text }}</h5>
+        <h5 class="card-title">{{ requests.get('https://url-title.vercel.app/' ~ url.url).text }}</h5>
         <h6 class="card-subtitle mb-2 link-secondary"><a target="_blank" href="{{ url.url }}">{{ url.url
                 }}</a>
         </h6>
