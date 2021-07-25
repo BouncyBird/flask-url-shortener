@@ -205,6 +205,8 @@ def load_user(user_id):
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+    if 'eshan.biz' in request.host_url:
+        return redirect("https://url.eshan.dev/")
     form = URLForm()
     if form.validate_on_submit():
         if form.url.data[:4] != 'http':
