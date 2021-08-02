@@ -23,6 +23,8 @@
         <p>Clicks: {{ url.clicks }}</p>
         <a target="_blank" href="{{ request.host_url ~ url.shorturl }}" class="card-link">Shortened URL: {{
             request.host_url ~ url.shorturl }}</a><br><br>
+        <a target="_blank" href="{{ 'https://eshan.dev/s/' ~ url.shorturl }}" class="card-link">Even shorter URL: {{
+            'https://eshan.dev/s/' ~ url.shorturl }}</a><br><br>
         <a href="{{ url_for('update_url', url_id=url.id) }}" class="btn btn-secondary btn-sm m-1">Edit</a>
         <a href="{{ url_for('delete_url', url_id=url.id) }}" class="btn btn-danger btn-sm m-1">Delete</a>
     </div>
