@@ -13,7 +13,7 @@
 {% for url in urls %}
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{ requests.get('https://url-title.vercel.app/' ~ url.url.split('//')[1]).text }}</h5>
+        <h5 class="card-title">{{ url.url.split('//')[1] }}</h5>
         <h6 class="card-subtitle mb-2 link-secondary"><a target="_blank" href="{{ url.url }}">{{ url.url
                 }}</a>
         </h6>
@@ -37,7 +37,7 @@
 {% for url in allurls %}
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{ requests.get('https://url-title.vercel.app/' ~ url.url.split('//')[1]).text }}</h5>
+        <h5 class="card-title">{{ url.url.split('//')[1] }}</h5>
         <h6 class="card-subtitle mb-2 link-secondary"><a target="_blank" href="{{ url.url }}">{{ url.url
                 }}</a>
         </h6>
