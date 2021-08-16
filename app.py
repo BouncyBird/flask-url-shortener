@@ -16,6 +16,7 @@ from flask_mail import Message, Mail
 from urllib.parse import urlparse
 import os
 import psycopg2
+from pysafebrowsing import SafeBrowsing
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '09c4a587537f4059549a8f9ef485f284'
@@ -40,6 +41,7 @@ mail.init_app(app)
 bcrypt.init_app(app)
 login_manager.init_app(app)
 migrate = Migrate(app, db, render_as_batch=True)
+sb = SafeBrowsing("AIzaSyBdd5mTq8yqRwhHRFlP4AGOGxkZu6PjkeA")
 
 
 def generate_confirmation_token(email):
@@ -213,6 +215,9 @@ def home():
             urlto = 'http://' + form.url.data
         else:
             urlto = form.url.data
+        if sb.lookup_urls([urlto])[urlto]['malicious']:
+            flash('This URL is malicious. Please enter a different URL.')
+            return redirect(url_for('home'))
         if current_user.is_authenticated:
             useid = current_user.id
         else:
