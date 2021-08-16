@@ -215,7 +215,8 @@ def home():
             urlto = 'http://' + form.url.data
         else:
             urlto = form.url.data
-        if sb.lookup_urls([urlto])[urlto]['malicious']:
+        r = sb.lookup_urls([urlto])
+        if r[urlto]['malicious']:
             flash('This URL is malicious. Please enter a different URL.')
             return redirect(url_for('home'))
         if current_user.is_authenticated:
