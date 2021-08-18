@@ -268,6 +268,9 @@ def api():
         return jsonify({'status': 'error', 'error': 'Short URL taken'})
     elif params['shorturl'] in ['login', 'register', 'logout', 'reset_password', 'confirm', 'account', 'url', 'static', 'api']:
         return jsonify({'status': 'error', 'error': ' That Short URL is forbidden'})
+    r = sb.lookup_urls([params['url']])
+    if r[params['url']]['malicious']:
+        return jsonify({'status': 'error', 'error': 'URL is malicious'})
     else:
         url = URL(url=params['url'], shorturl=params['shorturl'], password=None, clicks=0,
                   user_id=None)
