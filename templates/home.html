@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1 class="col-7">URL Shortener!</h1>
+<p>Check out my other projects on my website: <a target="_blank" href="https://eshan.dev">eshan.dev</a></p>
 {% if current_user.is_authenticated %}
 <a href="{{ url_for('account') }}" class="btn btn-info">Account</a>
 <a href="{{ url_for('logout') }}" class="btn btn-info">Logout</a>
