@@ -248,26 +248,32 @@ def short_url(shorturl):
             if bcrypt.check_password_hash(url.password, form.password.data):
                 r = sb.lookup_urls([url.url])
                 if r[url.url]['malicious']:
+                    db.session.delete(url)
+                    db.session.commit()
                     flash(
-                        'This URL is malicious. This website does redirect you to malicious websites.', 'danger')
+                        'This URL is malicious. This website does redirect you to malicious websites. The URL has been deleted.', 'danger')
                     return redirect(url_for('home'))
-                url.clicks = url.clicks + 1
-                db.session.add(url)
-                db.session.commit()
-                return redirect(url.url)
+                else:
+                    url.clicks = url.clicks + 1
+                    db.session.add(url)
+                    db.session.commit()
+                    return redirect(url.url)
             else:
                 flash('Password validation unsuccessful. Please try again', 'danger')
         return render_template('password.html', form=form)
     else:
         r = sb.lookup_urls([url.url])
         if r[url.url]['malicious']:
+            db.session.delete(url)
+            db.session.commit()
             flash(
-                'This URL is malicious. This website does redirect you to malicious websites.', 'danger')
+                'This URL is malicious. This website does redirect you to malicious websites. The URL has been deleted.', 'danger')
             return redirect(url_for('home'))
-        url.clicks = url.clicks + 1
-        db.session.add(url)
-        db.session.commit()
-        return redirect(url.url)
+        else:
+            url.clicks = url.clicks + 1
+            db.session.add(url)
+            db.session.commit()
+            return redirect(url.url)
 
 
 @app.route('/api')
