@@ -246,6 +246,11 @@ def short_url(shorturl):
         form = PasswordForm()
         if form.validate_on_submit():
             if bcrypt.check_password_hash(url.password, form.password.data):
+                r = sb.lookup_urls([url.url])
+                if r[url.url]['malicious']:
+                    flash(
+                        'This URL is malicious. This website does redirect you to malicious websites.', 'danger')
+                    return redirect(url_for('home'))
                 url.clicks = url.clicks + 1
                 db.session.add(url)
                 db.session.commit()
@@ -254,6 +259,11 @@ def short_url(shorturl):
                 flash('Password validation unsuccessful. Please try again', 'danger')
         return render_template('password.html', form=form)
     else:
+        r = sb.lookup_urls([url.url])
+        if r[url.url]['malicious']:
+            flash(
+                'This URL is malicious. This website does redirect you to malicious websites.', 'danger')
+            return redirect(url_for('home'))
         url.clicks = url.clicks + 1
         db.session.add(url)
         db.session.commit()
