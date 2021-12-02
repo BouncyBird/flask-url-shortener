@@ -28,11 +28,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = uri
 db = SQLAlchemy(app)
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcVOwobAAAAAFIk9sCMke7fG6bFySp4spGSF_vf'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcVOwobAAAAAI2qx_g9Uv1rvyF_YIryRgAUHFC1'
-app.config['MAIL_SERVER'] = "smtp.googlemail.com"
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'bouncybird.mailsender@gmail.com'
-app.config['MAIL_PASSWORD'] = 'asdfghjkl!@#$%^&*()'
+app.config['MAIL_SERVER'] = "smtp.sendgrid.com"
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'apikey'
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASS')
 mail = Mail()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -296,7 +296,7 @@ def api():
 
 
 def send_confirm_email(user, token, confirm_url):
-    msg = Message('Confirm Account', sender='noreply@demo.com',
+    msg = Message('Confirm Account', sender='noreply@eshan.dev',
                   recipients=[user.email])
     msg.body = f'''To confirm your account, visit the following link:
 {url_for('confirm_email', token=token, _external=True)}
